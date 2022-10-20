@@ -201,7 +201,7 @@ number of true acceptances, and black horizontal lines indicating the mean preci
 
  * NOTE: this will return all the necessary information from running the PLDA to calculate addition metrics in a separate file (as we do). This file only saves out the standard precision, recall, matthew's correlation coefficient, fscore, accuracy, threshold information, and confusion matrix for both EER and minDCF. 
 
- * NOTE 2: the output file names have the following format: *TH-FUNC-TYPE*_*DATA-TYPE*_tr*NUM-TRAIN-SPEAKERS*_*AMOUNT-TR-RECORDINGS*_te*NUM-TEST-SPEAKERS*_*AMOUNT-TE-RECORDINGS*_o*NUM-OVERLAP-SPEAKERS*_*AMOUNT-O-RECORDINGS*_r*NUM-TH-RUNS*_s*TH-SUBSET-SIZE*_data/metrics.json
+ * NOTE 2: the output file names have the following format: TH-FUNC-TYPE_DATA-TYPE_trNUM-TRAIN-SPEAKERS_AMOUNT-TR-RECORDINGS_teNUM-TEST-SPEAKERS_AMOUNT-TE-RECORDINGS_oNUM-OVERLAP-SPEAKERS_AMOUNT-O-RECORDINGS_rNUM-TH-RUNS_sTH-SUBSET-SIZE_data/metrics.json
       * If both EER and minDCF were calculated, TH-FUNC-TYPE will be 'both'. If manual threshold was given, TH-FUNC-TYPE will be 'manual'. Otherwise it will just be the function name ('eer' or 'mindcf')
       * By default, AMOUNT-TR-RECORDINGS is 'all', AMOUNT-TE-RECORDINGS is '1', and AMOUNT-O-RECORDINGS is 's' for 1 sentence(utterance)
 
@@ -222,10 +222,10 @@ Some optional arguments of interest may be
 * '-c' to specify which calculations you want completed. The choices are 'rank1' - to calculate metrics for rank1 matches, 'known' - to calculate metrics for known overlap case, and 'overlap' - to calculate whether FA are from overlapping or non-overlapping speakers. By default, all are calculated.
 * '-n' to specify what the known overlap is. By default, it is 5.
 
-* NOTE: in this code, results for each data directory will be saved in that director. 
-      * rank 1 metrics are saved as `rank1_counts_*.csv`
-      * known overlap metrics are saved as `*_known_overlap_counts_*.csv`
-      * FA overlapping/non-overlapping counts are saved as `non_overlap_acceptances_*.csv`
+* NOTE: in this code, results for each data directory will be saved in that directory. 
+* rank 1 metrics are saved as `rank1_counts_*.csv`
+* known overlap metrics are saved as `*_known_overlap_counts_*.csv`
+* FA overlapping/non-overlapping counts are saved as `non_overlap_acceptances_*.csv`
 
 
 ## Code Sources

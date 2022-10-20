@@ -261,8 +261,8 @@ def acceptance_overlap(files, wd, th_func):
        
         #FA overlapping speakers (speaker with a true match is matched to the wrong speaker)
         overlap_speakers = [i for i in range(len(test_speakers)) if test_speakers[i] in train_speakers]
-        predicted_overlap = predicted[:, non_overlap_speakers]
-        actual_overlap = actual[:, non_overlap_speakers]
+        predicted_overlap = predicted[:, overlap_speakers]
+        actual_overlap = actual[:, overlap_speakers]
         FA_o.append(np.sum(np.logical_and(np.invert(actual_overlap), predicted_overlap)))
 
     #SAVE TO CSV
@@ -276,11 +276,11 @@ def main():
     parser = argparse.ArgumentParser()
     #required arguments
     parser.add_argument("-d", "--data_dirs", nargs="+", required=True, help="specify all directories containing PLDA outputs you want additional metrics for")
-    parser.add_argument("-r", "--root_dir", required=True, help="specify root directory of all data dirs")
-    parser.add_argument("-e", "--reg_exp", default="v_tr*_all_te*_1_o5_s_*r500_s100data.json", help="specify a regular expression to use for selecting which files to calculate additional metrics for")
+    parser.add_argument("-r", "--root_dir", required=True,, help="specify root directory of all data dirs")
+    parser.add_argument("-e", "--reg_exp", default="*data.json", help="specify a regular expression to use for selecting which files to calculate additional metrics for")
     #optional arguments
     parser.add_argument("-t", "--th_func", default="mindcf", choices=["mindcf", "eer", "eer_only", "mindcf_only", "manual"], help="specify which threshold function for loading data")
-    parser.add_argument("-c", "--to_calculate",nargs='+', default=['rank1', 'known','overlap'], choices=['rank1','known','overlap'],  help="specify which metrics to calculate [rank1','known','overlap']")
+    parser.add_argument("-c", "--to_calculate",nargs='+', default=['rank1','known','overlap'], choices=['rank1','known','overlap'],  help="specify which metrics to calculate [rank1','known','overlap']")
     parser.add_argument("-n", "--known_overlap", default=5, help="specify known overlap")
     args = parser.parse_args()
 

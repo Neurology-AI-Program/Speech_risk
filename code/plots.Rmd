@@ -101,7 +101,7 @@ r1_mindcf_counts <- rbindlist(df_list) %>% mutate(comparisons=train*test) %>%
 ```{r known-overlap}
 dirs <- c("outputs/train2/7205","outputs/train2/4000","outputs/train2/1000", "outputs/test/150", "outputs/test/500", "outputs/test/1000")
 
-pat <-  "^5_known_overlap_counts.csv$"
+pat <-  "^5_known_overlap_counts_mindcf.csv$"
 dat <- "ko"
 for (i in 1:length(dirs)) {
   wd <- dirs[i]
@@ -460,7 +460,7 @@ plot_e <- full_compare %>%
 t <- ggarrange(plot_a,plot_b,plot_c,plot_d, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 
 # SAVE PLOTS
-name1 <- paste0(paste('worst-case','counts', sep="_"),'.png')
+name1 <- paste0(paste('worst-case','counts','mindcf', sep="_"),'.png')
   
   #p1 <- (plots[[1]] + plots[[2]])
 ggsave(filename=name1,plot=t, width=10,height=10)

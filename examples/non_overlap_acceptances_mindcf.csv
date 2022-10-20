@@ -22,7 +22,7 @@ files,total_matches,total_FA,FA_non_overlap,FA_overlap
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_35_r500_s100data.json,0,0,0,0
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_4_r500_s100data.json,2,0,0,0
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_9_r500_s100data.json,2,0,0,0
-./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_15_r500_s100data.json,2,1,1,1
+./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_15_r500_s100data.json,2,1,1,0
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_18_r500_s100data.json,0,0,0,0
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_39_r500_s100data.json,1,0,0,0
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_34_r500_s100data.json,2,0,0,0
@@ -47,5 +47,5 @@ files,total_matches,total_FA,FA_non_overlap,FA_overlap
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_12_r500_s100data.json,4,0,0,0
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_3_r500_s100data.json,2,0,0,0
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_32_r500_s100data.json,3,0,0,0
-./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_41_r500_s100data.json,3,1,1,1
+./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_41_r500_s100data.json,3,1,1,0
 ./Speech_risk/outputs/train2/1000/v_tr1000_all_te163_1_o5_s_22_r500_s100data.json,2,0,0,0

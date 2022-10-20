@@ -4,7 +4,7 @@ Daniela A. Wiepert, Bradley A. Malin, Joseph R. Duffy, Rene L. Utianski, John L.
 preprint available at: https://doi.org/10.48550/arXiv.2210.09975
 
 ## Abstract
-Large, curated datasets are required to leverage speech-based tools in healthcare. These are costly to produce, resulting in increased interest in data sharing. As speech can potentially identify speakers (i.e., voiceprints), sharing recordings raises privacy concerns. We examine the re-identification risk for speech recordings, without reference to demographic or metadata, using a state-of-the-art speaker recognition system. We demonstrate that the risk is inversely related to the number of comparisons an adversary must consider, i.e., the search space. Risk is high for a small search space but drops as the search space grows ($precision > 0.85$ for $< 1*10^6$ comparisons, $precision < 0.5$ for $> 3*10^6$ comparisons). Next, we show that the nature of a speech recording influences re-identification risk, with non-connected speech (e.g., vowel prolongation) being harder to identify. Our findings suggest that speaker recognition systems can be used to re-identify participants in specific circumstances, but in practice, the re-identification risk appears low.
+Large, curated datasets are required to leverage speech-based tools in healthcare. These are costly to produce, resulting in increased interest in data sharing. As speech can potentially identify speakers (i.e., voiceprints), sharing recordings raises privacy concerns. We examine the re-identification risk for speech recordings, without reference to demographic or metadata, using a state-of-the-art speaker recognition system. We demonstrate that the risk is inversely related to the number of comparisons an adversary must consider, i.e., the search space. Risk is high for a small search space but drops as the search space grows (precision > 0.85 for < 1x10^6 comparisons, $=precision < 0.5 for > 3x10^6 comparisons). Next, we show that the nature of a speech recording influences re-identification risk, with non-connected speech (e.g., vowel prolongation) being harder to identify. Our findings suggest that speaker recognition systems can be used to re-identify participants in specific circumstances, but in practice, the re-identification risk appears low.
 
 ## Datasets
 VoxCeleb 1 & 2: https://www.robots.ox.ac.uk/~vgg/data/voxceleb/
@@ -15,7 +15,18 @@ Mayo clinical speech recordings dataset
 
 ## Architecture
 ![Model Architecture](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/architecture.png)
-
+**Figure 1. Speaker Recognition System Architecture.** During training (top section) only the recordings from
+known speakers are used. These are fed into a pretrained speaker identification model, which outputs the
+predicted speaker out of a closed set. The prediction is not used, however, and instead the activations from the
+penultimate fully connected layer are extracted for each recording. These represent a low dimensional, latent
+representation for each recording that is enriched for speaker-identifying features (x-vectors). We used these
+x-vectors for known speakers to train a PLDA classifier, which scores the pairwise similarity for all recordings and
+proposes a threshold which minimizes the cost function (minDCF). This was done over several subsets and the
+threshold averaged to obtain the final training threshold. During testing (bottom section), x-vectors are extracted
+for recordings from unknown speakers in the same was as before. These are then fed into the trained PLDA but
+pairwise comparisons are done with the known speaker x-vectors. The training threshold is applied, and the net
+result is a set of matches (or no matches) for each recording. Those matches are used to calculate our metrics of
+interested (FAs, TAs, FAR, etc.).
 
 ## Results
 ### Experiments
@@ -26,11 +37,48 @@ Find table of all different experiments run at [output_vox.csv](https://github.c
 
 TODO: add figure captions
 ![figure2](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_counts.png)
-![figure3](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_prec.png)
-![figure4](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_worstcase.png)
-![figure5](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/mayo_counts.png)
-![Supplementary Figure 1](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_supplementary.png)
+**Figure 2. Number of true and false acceptances for the speaker recognition model in a realistic scenario with VoxCeleb.** **(a)** shows the counts when varying the 
+number of known speakers while keeping the number of unknown speakers static, **(b)** shows the counts when varying the number of unknown speakers 
+while keeping the number of known speakers static, and **(c)** shows the overall trend in terms of number of comparisons made (i.e.,
+the search space size = known ∗ unknown speakers). All plots **(a-c)** include the Pearson’s correlation coefficient
+and corresponding significance for false acceptances and number of speakers/comparisons. Each run is plotted as
+a single circle, with red horizontal lines indicating the mean number of false acceptances and green horizontal lines
+indicating the mean number of true acceptances.
 
+![figure3](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_prec.png)
+**Figure 3. Precision and False Acceptance Rates for the speaker recognition model in a realistic scenario with VoxCeleb.** Precision **(a)** and false acceptance rates **(b)**
+are shown as a function of the number of comparisons. For both plots, each run is represented by a circle, and the mean is represented by a horizontal black line.
+
+![figure4](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_worstcase.png)
+**Figure 4. Results for our speaker recognition model in worst-case scenarios with VoxCeleb.** **(a)** shows the true and
+false acceptance counts for a known overlap scenario (limited to N = 5 best matches), while **(b)** shows the
+corresponding precision as a function of the number of comparisons (search space size). **(c)** and **(d)** show the false
+and true acceptance counts for a full overlap scenario, where all unknown speakers are present in the known
+speaker set as a function of the number of comparisons (search space size). **(a)** and **(c)** also shows the Pearson’s
+correlation coefficient and corresponding significance between false acceptances and number of comparisons. Each
+run is plotted as a single circle, with red horizontal lines indicating the mean number of false acceptances, green
+horizontal lines indicating the mean number of true acceptances, and black horizontal lines indicating the mean
+precision.
+
+![figure5](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/mayo_counts.png)
+**Figure 5. Results for our speaker recognition model with the Mayo clinical speech dataset.** **(a)** and **(b)** show cross-task results,
+where recordings for known speakers are always sentence repetition but the task for unknown speaker recordings
+varies. The baseline is when sentence repetitions are in both the known and unknown set. Pooling is when all
+recordings for an unknown speaker are linked together across all tasks. **(a)** show the breakdown of counts for this
+case while (b) is the corresponding precision. **(c)** and **(d)** show within-task results, where tasks for known and
+unknown speakers are always the same. **(c)** is the breakdown of counts for this case while **(d)** is the
+corresponding precision. Each run is plotted as a single circle, with red horizontal lines indicating the mean
+number of false acceptances, green horizontal lines indicating the mean number of true acceptances, and black
+horizontal lines indicating mean precision.
+
+![Supplementary Figure 1](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_supplementary.png)
+**Supplementary Figure 1. Results for known speaker set with fixed speakers in unknown set using VoxCeleb.** **(a)** shows the
+breakdown of true and false acceptances when we change the number of known speakers and keep the unknown
+speaker set fixed, with the exception of overlapping speakers. It also shows the Pearson’s correlation coefficient and
+corresponding significance between false acceptances and number of known speakers. **(b)** shows the corresponding
+precision and **(c)** shows the corresponding false acceptance rates. Each run is plotted as a single circle, with red
+horizontal lines indicating the mean number of false acceptances, green horizontal lines indicating the mean
+number of true acceptances, and black horizontal lines indicating the mean precision or false acceptance rate.
 
 
 # Files 

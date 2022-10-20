@@ -194,7 +194,7 @@ def known_overlap_counts(files, wd, th_func, n=5):
         
         #mark True in the empty results array
         for ind in index:
-            if scores_flat[ind] != 0:
+            if not np.isinf(scores_flat[ind]):
                 t = np.where(ind_array == ind)
                 x = t[0]
                 y = t[1]
@@ -209,14 +209,14 @@ def known_overlap_counts(files, wd, th_func, n=5):
         #get confusion matrix counts
         ta, fa, tr, fr = prediction_breakdown(actual,pred_known)
         #calculate precision
-        rank1_prec = ta / (ta+fa)
+        known_prec = ta / (ta+fa)
 
         #add to list
         TA.append(ta)
         FA.append(fa)
         TR.append(tr)
         FR.append(fr)
-        prec.append(rank1_prec)
+        prec.append(known_prec)
 
     #SAVE TO CSV
     out = pd.DataFrame({'files': files, 'TA': TA, 'FA': FA, 'TR': TR, "FR": FR, 'prec': prec})
@@ -275,8 +275,8 @@ def main():
     # PARSE ARGUMENTS
     parser = argparse.ArgumentParser()
     #required arguments
-    parser.add_argument("-d", "--data_dirs", nargs="+", default =['train2/1000', 'train2/4000', 'test/150', 'train2/7205', 'test/500', 'test/1000'], help="specify all directories containing PLDA outputs you want additional metrics for")
-    parser.add_argument("-r", "--root_dir", default='/Users/m144443/Documents/mayo-speech_data/outputs/', help="specify root directory of all data dirs")
+    parser.add_argument("-d", "--data_dirs", nargs="+", required=True, help="specify all directories containing PLDA outputs you want additional metrics for")
+    parser.add_argument("-r", "--root_dir", required=True, help="specify root directory of all data dirs")
     parser.add_argument("-e", "--reg_exp", default="v_tr*_all_te*_1_o5_s_*r500_s100data.json", help="specify a regular expression to use for selecting which files to calculate additional metrics for")
     #optional arguments
     parser.add_argument("-t", "--th_func", default="mindcf", choices=["mindcf", "eer", "eer_only", "mindcf_only", "manual"], help="specify which threshold function for loading data")

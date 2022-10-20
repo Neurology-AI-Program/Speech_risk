@@ -58,7 +58,7 @@ train_vtest <- output_data %>%
 ```{r rank1-mindcf}
 dirs <- c("outputs/train2/7205","outputs/train2/4000","outputs/train2/1000", "outputs/test/150", "outputs/test/500", "outputs/test/1000")
 
-pat <-  "rank1_counts_mindcf.csv"
+pat <-  "^rank1_counts_mindcf.csv$"
 dat <- "r1"
 for (i in 1:length(dirs)) {
   wd <- dirs[i]
@@ -93,7 +93,7 @@ r1_7205_train2$test <- 163
 
 df_list <- list(r1_1000_test,r1_500_test,r1_150_test,r1_7205_train2, r1_4000_train2,r1_1000_train2)
 r1_mindcf_counts <- rbindlist(df_list) %>% mutate(comparisons=train*test) %>%
-  mutate(far=(FA/comparisons)) %>% mutate(x1 = comparisons) %>% mutate(precision = TA/(TA+FA)) %>% filter(x1==163000 | x1==1174415 | x1==3000000 | x1==6000000) %>% rename(rank1_TA=TA, rank1_FA=FA)
+  mutate(far=(FA/comparisons)) %>% mutate(x1 = comparisons) %>% mutate(precision = TA/(TA+FA)) %>% filter(x1==163000 | x1==1174415 | x1==3000000 | x1==6000000)
 #compare2 <- compare_1 %>% merge(rank1_counts, by="output_data")
 ```
 
@@ -101,7 +101,7 @@ r1_mindcf_counts <- rbindlist(df_list) %>% mutate(comparisons=train*test) %>%
 ```{r known-overlap}
 dirs <- c("outputs/train2/7205","outputs/train2/4000","outputs/train2/1000", "outputs/test/150", "outputs/test/500", "outputs/test/1000")
 
-pat <-  "5_known_overlap_counts_mindcf.csv"
+pat <-  "^5_known_overlap_counts.csv$"
 dat <- "ko"
 for (i in 1:length(dirs)) {
   wd <- dirs[i]
@@ -460,7 +460,7 @@ plot_e <- full_compare %>%
 t <- ggarrange(plot_a,plot_b,plot_c,plot_d, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 
 # SAVE PLOTS
-name1 <- paste0(paste('limited_overlap','counts','mindcf', sep="_"),'.png')
+name1 <- paste0(paste('worst-case','counts', sep="_"),'.png')
   
   #p1 <- (plots[[1]] + plots[[2]])
 ggsave(filename=name1,plot=t, width=10,height=10)
@@ -484,27 +484,28 @@ comparisons_far <- far.summary(compare)
 ```{r rank1-plots}
 # PLOT D - Search Space Size, rank 1
   
- # corr_known <- cor.test(r1_mindcf_counts$x1, r1_mindcf_counts$rank1_FA, method=c("pearson"))
+  corr_rank <- cor.test(r1_mindcf_counts$x1, r1_mindcf_counts$FA, method=c("pearson"))
   
-#  plot_d <- r1_mindcf_counts %>%
-#        select(x1, rank1_TA, rank1_FA) %>%
-#        pivot_longer(-x1) %>%
-#      ggplot(aes(x1, value, color=name))+
-#      geom_point(position=position_jitterdodge(jitter.width=425000,jitter.height=0.1, dodge.width=850000),
-#               size=3,
-#               alpha=0.35, 
-#               shape=21)+
-#      #geom_abline(intercept=lm_total_coef[1], slope = lm_total_coef[2], alpha=0.4, linetype = "dashed")+
-#      geom_errorbarh(data = r1_mindcf_counts %>% select(x1,rank1_TA,rank1_FA)%>% pivot_longer(-x1)%>%group_by(x1,name)%>%summarise(value=mean(value)), aes(xmin=x1-425000,xmax=x1+425000,group=name), stat=,position=position_dodge(width=850000),height=0,size=2)+
-#        theme_classic()+
-#    scale_x_continuous(labels = comma,breaks = unique(r1_mindcf_counts$x1)) +
-##    scale_color_manual(values=c(red_c,green_c))+
-##    ylim(0,6) +
-#    labs(tag = "(d)") +
-#  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),legend.title = element_blank(),legend.position = "none", plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = "gray"),plot.tag = element_text())+
- #   ylab("N")+xlab("Search Space Size (# Comparisons)")+ggtitle("Search Space: Rank 1 Acceptances", subtitle = "strict minDCF threshold") 
+  plot_a <- r1_mindcf_counts %>%
+        select(x1, TA, FA) %>%
+        pivot_longer(-x1) %>%
+      ggplot(aes(x1, value, color=name))+
+      geom_point(position=position_jitterdodge(jitter.width=425000,jitter.height=0.1, dodge.width=850000),
+               size=3,
+               alpha=0.35, 
+               shape=21)+
+      #geom_abline(intercept=lm_total_coef[1], slope = lm_total_coef[2], alpha=0.4, linetype = "dashed")+
+      geom_errorbarh(data = r1_mindcf_counts %>% select(x1,TA,FA)%>% pivot_longer(-x1)%>%group_by(x1,name)%>%summarise(value=mean(value)), aes(xmin=x1-425000,xmax=x1+425000,group=name), stat=,position=position_dodge(width=850000),height=0,size=2)+
+        theme_classic()+
+    scale_x_continuous(labels = comma,breaks = unique(r1_mindcf_counts$x1)) +
+    scale_color_manual(values=c(red_c,green_c))+
+    ylim(0,6) +
+    labs(tag = "(a)") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),legend.title = element_blank(),legend.position = "none", plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = "gray"),plot.tag = element_text())+
+   ylab("N")+xlab("Search Space Size (# Comparisons)")+ggtitle("Search Space: Rank 1 Acceptances", subtitle = "strict minDCF threshold") 
   
-#  plot_d <- plot_d + geom_text(x=-Inf, y=6, label='FA ~ comparisons', hjust=-.1, yjust=0, size=3, color="#000000") + geom_text(x=-Inf, y=5.7, label=paste0("r = ",as.character(signif(corr_known$estimate, digits=4))), hjust=-.2, yjust=0, size=3) + geom_text(x=-Inf, y=5.4, label=paste0("p-value < 2.2e-16"), hjust=-.1, yjust=0, size=3)
+  plot_a <- plot_a + geom_text(x=-Inf, y=6, label='FA ~ comparisons', hjust=-.1, yjust=0, size=3, color="#000000", show.legend = FALSE) + geom_text(x=-Inf, y=5.7, label=paste0("r = ",as.character(signif(corr_rank$estimate, digits=4))), hjust=-.2, yjust=0, size=3, show.legend = FALSE) + geom_text(x=-Inf, y=5.4, label=paste0("p-value < 2.2e-16"), hjust=-.1, yjust=0, size=3,show.legend = FALSE)
+  
 #PLOT B - rank 1 precision
 plot_b <- r1_mindcf_counts %>%
     select(x1, precision) %>%
@@ -520,6 +521,15 @@ plot_b <- r1_mindcf_counts %>%
   scale_color_manual(values=c(red_c,green_c))+
   labs(tag = substitute(paste(bold("(b)")))) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),legend.title = element_blank(),legend.position = "bottom", plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = "gray"),plot.tag = element_text())+ylab("Precision: TA/(TA+FA)")+xlab("Search Space Size (# Comparisons)")+ggtitle("Rank 1 Precision", subtitle = "strict minDCF threshold")
+
+# arrange plots
+t <- ggarrange(plot_a,plot_b, ncol=2, nrow=1, common.legend = TRUE, legend="bottom")
+
+# SAVE PLOTS
+name1 <- paste0(paste('rank1','mindcf', sep="_"),'.png')
+  
+  #p1 <- (plots[[1]] + plots[[2]])
+ggsave(filename=name1,plot=t, width=10,height=5)
 ```
 
 

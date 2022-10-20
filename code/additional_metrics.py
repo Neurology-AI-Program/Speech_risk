@@ -145,7 +145,7 @@ def rank1_counts(files, wd, th_func):
     out = pd.DataFrame({'files': files, 'TA': TA, 'FA': FA, 'TR': TR, "FR": FR, 'prec': prec})
     out_name = os.path.join(wd,"rank1_counts")
     out_name = out_name + "_"  + th_func + '.csv'
-    out.to_csv(out_name)
+    out.to_csv(out_name, index=False)
 
 def known_overlap_counts(files, wd, th_func, n=5):
     '''
@@ -222,7 +222,7 @@ def known_overlap_counts(files, wd, th_func, n=5):
     out = pd.DataFrame({'files': files, 'TA': TA, 'FA': FA, 'TR': TR, "FR": FR, 'prec': prec})
     out_name = os.path.join(wd, str(n) + "_known_overlap_counts")
     out_name = out_name + "_"  + th_func + '.csv'
-    out.to_csv(out_name)
+    out.to_csv(out_name, index=False)
 
 def acceptance_overlap(files, wd, th_func):
     '''
@@ -269,7 +269,7 @@ def acceptance_overlap(files, wd, th_func):
     out = pd.DataFrame({"files": files, "total_matches": total_matches, "total_FA": total_FA, "FA_non_overlap":FA_non_o, "FA_overlap":FA_o})
     out_name = os.path.join(wd, "non_overlap_acceptances")
     out_name = out_name + "_"  + th_func + '.csv'
-    out.to_csv(out_name)
+    out.to_csv(out_name, index=False)
 
 def main():
     # PARSE ARGUMENTS

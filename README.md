@@ -35,7 +35,6 @@ Find table of all different experiments run at [output_vox.csv](https://github.c
 ### Plots
 * Plots were manually generated using [plots.Rmd](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/code/plots.Rmd). The resulting plots can be found at [plots](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/)
 
-TODO: add figure captions
 ![figure2](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_counts.png)
 **Figure 2. Number of true and false acceptances for the speaker recognition model in a realistic scenario with VoxCeleb.** **(a)** shows the counts when varying the 
 number of known speakers while keeping the number of unknown speakers static, **(b)** shows the counts when varying the number of unknown speakers 
@@ -165,8 +164,9 @@ number of true acceptances, and black horizontal lines indicating the mean preci
  
  An example for VoxCeleb:
  ```
- python3 combined_train_test_split.py -i ./voxceleb/vox_embeddings/ -o ./speaker_info/ -d vox -t vox -x 7205 -y 163 -n 5
+ python3 combined_train_test_split.py -i ./voxceleb/vox_embeddings/ -o ./speaker_info/ -d vox -t vox -x 1000 -y 163 -n 5
  ```
+ The resulting output can be found at [train/test split](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/v_tr1000_all_te163_1_o5_s.csv)
 
  * NOTE 3: For Supplemental VoxCeleb tests, where we use vox test embeddings only for re-identification, you would need to give ```-i ./voxceleb/vox_embeddings/dev and ./voxceleb/vox_embeddings/test``` and also ```-d vox vox-test -t vox -x 7205 0 -y 5 158 -n 5 0``` to account for the fact that 158 speakers are from vox-test only while the 5 overlap is from the rest of vox
 
@@ -178,7 +178,7 @@ number of true acceptances, and black horizontal lines indicating the mean preci
       python plda.py -d PATH_TO_SPLIT -o PATH_TO_OUTPUT_DIR -e PATH_TO_SAVE_CSV -n NUM_OVERLAP
 ``` 
  * PATH_TO_SPLIT should be the full file path pointing to the train/test split generated with [combined_train_test_split.py](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/code/combined_train_test_split.py) to make sure all the proper columns exist. Due to git size limits, example speaker infos can not be uploaded. NOTE: all paths in speaker info should be FULL FILE PATHS. If you previously created a split but are now using a different directory, you can either recreate or edit the txt files.
- * PATH_TO_OUTPUT_DIR should point to directory where results should be saved to. Some of the results from our runs have been saved in the [examples](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/) directory, though many of them are too large to be saved on GitHub. The output is saved as two .json files, one with all the PLDA scores and other data, and one with only metrics. Only the [metric example](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/TODO) is able to be loaded to github.
+ * PATH_TO_OUTPUT_DIR should point to directory where results should be saved to. Some of the results from our runs have been saved in the [examples](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/) directory, though many of them are too large to be saved on GitHub. The output is saved as two .json files, one with all the PLDA scores and other data ([data example](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/v_tr1000_all_te163_1_o5_s_r500_s100data.json)), and one with only metrics([metric example](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/v_tr1000_all_te163_1_o5_s_r500_s100metrics.json)). 
  * PATH_TO_SAVE_CSV should specify file path where you want the output csv with metrics saved. NEEDS TO BE THE SAME FOR EACH RUN IF YOU WANT DATA SAVED IN SAME PLACE. An example for our experiments can be found at [experiments.csv](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/experiments.csv)
  * NUM_OVERLAP should specify the known overlap between train and test speakers (int)
 
@@ -208,7 +208,7 @@ number of true acceptances, and black horizontal lines indicating the mean preci
 ## ADDITIONAL METRICS
  * Use [additional_metrics.py](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/code/additional_metrics.py) to calculate additional metrics
  * This code will load the PLDA scores from the output of [plda.py](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/code/plda.py) and re-calculate all metrics for a rank 1 case (where only the best match per speaker is used) and a known overlap case (where the top N = known overlap cases are used). Additionally, it will calculate whether false acceptances are from an overlapping or non-overlapping speaker (i.e was the speaker in both the known and unknown set).
- * Results are saved as csv files in the original data directories. [example 1](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/TODO) shows rank1 results, [example2](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/TODO) shows known overlap results, and [example 3](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/TODO) shows non-overlapping FA results
+ * Results are saved as csv files in the original data directories. Here are examples for a known set of 1000, unknown set of 163: [example 1](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/rank1_counts_mindcf.csv) shows rank1 results, [example2](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/5_known_overlap_counts_mindcf.csv) shows known overlap results, and [example 3](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/non_overlap_acceptances_mindcf.csv) shows non-overlapping FA results
  * Example command line input for running this file (only includes required arguments)'
 ```
       python additional_metrics.py -d DATA_DIR1 DATA_DIR2 ... DATA_DIRN -r PATH_TO_ROOT_DATA_DIR

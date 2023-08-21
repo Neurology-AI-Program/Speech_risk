@@ -276,7 +276,7 @@ def main():
     parser = argparse.ArgumentParser()
     #required arguments
     parser.add_argument("-d", "--data_dirs", nargs="+", required=True, help="specify all directories containing PLDA outputs you want additional metrics for")
-    parser.add_argument("-r", "--root_dir", required=True,, help="specify root directory of all data dirs")
+    parser.add_argument("-r", "--root_dir", required=True, help="specify root directory of all data dirs")
     parser.add_argument("-e", "--reg_exp", default="*data.json", help="specify a regular expression to use for selecting which files to calculate additional metrics for")
     #optional arguments
     parser.add_argument("-t", "--th_func", default="mindcf", choices=["mindcf", "eer", "eer_only", "mindcf_only", "manual"], help="specify which threshold function for loading data")

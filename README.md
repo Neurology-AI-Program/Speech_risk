@@ -1,16 +1,24 @@
-# Risk of re-identification for shared clinical speech recordings
+# Reidentification of participants in shared clinical data sets: Experimental study
 Daniela A. Wiepert, Bradley A. Malin, Joseph R. Duffy, Rene L. Utianski, John L. Stricker, David T. Jones, and Hugo Botha
 
-preprint available at: https://doi.org/10.48550/arXiv.2210.09975
+Manuscript available at: https://doi.org/10.2196/52054
 
 ## Abstract
-Large, curated datasets are required to leverage speech-based tools in healthcare. These are costly to produce, resulting in increased interest in data sharing. As speech can potentially identify speakers (i.e., voiceprints), sharing recordings raises privacy concerns. We examine the re-identification risk for speech recordings, without reference to demographic or metadata, using a state-of-the-art speaker recognition system. We demonstrate that the risk is inversely related to the number of comparisons an adversary must consider, i.e., the search space. Risk is high for a small search space but drops as the search space grows (precision > 0.85 for < 1x10^6 comparisons, precision < 0.5 for > 3x10^6 comparisons). Next, we show that the nature of a speech recording influences re-identification risk, with non-connected speech (e.g., vowel prolongation) being harder to identify. Our findings suggest that speaker recognition systems can be used to re-identify participants in specific circumstances, but in practice, the re-identification risk appears low.
+*Background*: Large curated data sets are required to leverage speech-based tools in health care. These are costly to produce, resulting in increased interest in data sharing. As speech can potentially identify speakers (ie, voiceprints), sharing recordings raises privacy concerns. This is especially relevant when working with patient data protected under the Health Insurance Portability and Accountability Act.
+
+*Objective*: We aimed to determine the reidentification risk for speech recordings, without reference to demographics or metadata, in clinical data sets considering both the size of the search space (ie, the number of comparisons that must be considered when reidentifying) and the nature of the speech recording (ie, the type of speech task).
+
+*Methods*: Using a state-of-the-art speaker identification model, we modeled an adversarial attack scenario in which an adversary uses a large data set of identified speech (hereafter, the known set) to reidentify as many unknown speakers in a shared data set (hereafter, the unknown set) as possible. We first considered the effect of search space size by attempting reidentification with various sizes of known and unknown sets using VoxCeleb, a data set with recordings of natural, connected speech from >7000 healthy speakers. We then repeated these tests with different types of recordings in each set to examine whether the nature of a speech recording influences reidentification risk. For these tests, we used our clinical data set composed of recordings of elicited speech tasks from 941 speakers.
+
+*Results*: We found that the risk was inversely related to the number of comparisons an adversary must consider (ie, the search space), with a positive linear correlation between the number of false acceptances (FAs) and the number of comparisons (r=0.69; P<.001). The true acceptances (TAs) stayed relatively stable, and the ratio between FAs and TAs rose from 0.02 at 1 × 10^5 comparisons to 1.41 at 6 × 10^6 comparisons, with a near 1:1 ratio at the midpoint of 3 × 106 comparisons. In effect, risk was high for a small search space but dropped as the search space grew. We also found that the nature of a speech recording influenced reidentification risk, with nonconnected speech (eg, vowel prolongation: FA/TA=98.5; alternating motion rate: FA/TA=8) being harder to identify than connected speech (eg, sentence repetition: FA/TA=0.54) in cross-task conditions. The inverse was mostly true in within-task conditions, with the FA/TA ratio for vowel prolongation and alternating motion rate dropping to 0.39 and 1.17, respectively.
+
+*Conclusions*: Our findings suggest that speaker identification models can be used to reidentify participants in specific circumstances, but in practice, the reidentification risk appears small. The variation in risk due to search space size and type of speech task provides actionable recommendations to further increase participant privacy and considerations for policy regarding public release of speech recordings.
+
 
 ## Datasets
 VoxCeleb 1 & 2: https://www.robots.ox.ac.uk/~vgg/data/voxceleb/
 
-Mayo clinical speech recordings dataset
-![mayo_breakdown](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/mayo_table.png)
+Mayo clinical speech recordings dataset - see publication for breakdown of speakers and recordings by task. Not publicly available.
 
 
 ## Architecture

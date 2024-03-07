@@ -22,7 +22,7 @@ Mayo clinical speech recordings dataset - see publication for breakdown of speak
 
 
 ## Architecture
-![Model Architecture](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/architecture.png)
+![Model Architecture](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/figure1.png)
 **Figure 1. Speaker Recognition System Architecture.** During training (top section) only the recordings from
 known speakers are used. These are fed into a pretrained speaker identification model, which outputs the
 predicted speaker out of a closed set. The prediction is not used, however, and instead the activations from the
@@ -41,9 +41,9 @@ interested (FAs, TAs, FAR, etc.).
 Find table of all different experiments run at [output_vox.csv](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/output_vox.csv) and [output_mayo.csv](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/examples/output_mayo.csv).
 
 ### Plots
-* Plots were manually generated using [plots.Rmd](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/code/plots.Rmd). The resulting plots can be found at [plots](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/)
+* Plots were manually generated using R.
 
-![figure2](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_counts.png)
+![figure2](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/figure2.png)
 **Figure 2. Number of true and false acceptances for the speaker recognition model in a realistic scenario with VoxCeleb.** **(a)** shows the counts when varying the 
 number of known speakers while keeping the number of unknown speakers static, **(b)** shows the counts when varying the number of unknown speakers 
 while keeping the number of known speakers static, and **(c)** shows the overall trend in terms of number of comparisons made (i.e.,
@@ -52,11 +52,11 @@ and corresponding significance for false acceptances and number of speakers/comp
 a single circle, with red horizontal lines indicating the mean number of false acceptances and green horizontal lines
 indicating the mean number of true acceptances.
 
-![figure3](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_prec.png)
+![figure3](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/figure3.png)
 **Figure 3. Precision and False Acceptance Rates for the speaker recognition model in a realistic scenario with VoxCeleb.** Precision **(a)** and false acceptance rates **(b)**
 are shown as a function of the number of comparisons. For both plots, each run is represented by a circle, and the mean is represented by a horizontal black line.
 
-![figure4](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_worstcase.png)
+![figure4](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/figure4.png)
 **Figure 4. Results for our speaker recognition model in worst-case scenarios with VoxCeleb.** **(a)** shows the true and
 false acceptance counts for a known overlap scenario (limited to N = 5 best matches), while **(b)** shows the
 corresponding precision as a function of the number of comparisons (search space size). **(c)** and **(d)** show the false
@@ -67,7 +67,7 @@ run is plotted as a single circle, with red horizontal lines indicating the mean
 horizontal lines indicating the mean number of true acceptances, and black horizontal lines indicating the mean
 precision.
 
-![figure5](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/mayo_counts.png)
+![figure5](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/figure5.png)
 **Figure 5. Results for our speaker recognition model with the Mayo clinical speech dataset.** **(a)** and **(b)** show cross-task results,
 where recordings for known speakers are always sentence repetition but the task for unknown speaker recordings
 varies. The baseline is when sentence repetitions are in both the known and unknown set. Pooling is when all
@@ -78,7 +78,7 @@ corresponding precision. Each run is plotted as a single circle, with red horizo
 number of false acceptances, green horizontal lines indicating the mean number of true acceptances, and black
 horizontal lines indicating mean precision.
 
-![Supplementary Figure 1](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/plots/vox_supplementary.png)
+![Supplementary Figure 1](https://github.com/Neurology-AI-Program/Speech_risk/blob/main/images/supplemental1.png)
 **Supplementary Figure 1. Results for known speaker set with fixed speakers in unknown set using VoxCeleb.** **(a)** shows the
 breakdown of true and false acceptances when we change the number of known speakers and keep the unknown
 speaker set fixed, with the exception of overlapping speakers. It also shows the Pearson’s correlation coefficient and
